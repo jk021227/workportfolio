@@ -1,0 +1,12 @@
+---
+:id: 199734363
+:submitters:
+- :name: Jhon Kim
+  :email: yk2606@nyu.edu
+:created_at: !ruby/object:ActiveSupport::TimeWithZone
+  utc: 2023-10-05 16:48:54.708272000 Z
+  zone: !ruby/object:ActiveSupport::TimeZone
+    name: America/Los_Angeles
+  time: 2023-10-05 09:48:54.708272000 Z
+:status: processed
+:score: 12.0
