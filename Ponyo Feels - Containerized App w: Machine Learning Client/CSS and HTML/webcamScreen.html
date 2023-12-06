@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webcam Display</title>
+  <style>
+    video {
+      width: 100%;
+      max-width: 600px;
+      margin: 20px auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Webcam Display</h1>
+  <video id="webcam" autoplay playsinline></video>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const video = document.getElementById('webcam');
+
+      // Check if the browser supports getUserMedia
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        // Access the webcam
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then((stream) => {
+            // Set the video source to the webcam stream
+            video.srcObject = stream;
+          })
+          .catch((error) => {
+            console.error('Error accessing webcam:', error);
+          });
+      } else {
+        console.error('getUserMedia is not supported in this browser');
+      }
+    });
+  </script>
+</body>
+</html>

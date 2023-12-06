@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home screen</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oxygen+Mono">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        h1 {
+            font-family: 'Oxygen Mono', monospace;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: black;
+
+        }
+
+        .button {
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 3px;
+            text-align: center;
+            cursor: pointer;
+            font-family: 'Oxygen Mono', monospace;
+            border: 0;
+            padding: 10px 20px;
+            position: relative;
+            margin: 10px auto;
+            width: auto;
+        }
+
+        .button:hover {
+            background-color: #ddd;
+        }
+
+        #emotionSpotify {
+            z-index: 10;
+            padding: 20px;
+            bottom: 5%;
+            text-align: center;
+        }
+
+        .container {
+            text-align: center;
+            margin: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #emotionPieChart {
+            max-width: 700px;
+            max-height: 500px;
+        }
+        img{
+            width: 30px;
+            height: auto;
+        }
+    </style>
+</head>
+
+<nav class="navbar fixed-top navbar-light bg-light">
+    <div class="container-fluid d-flex justify-content-between">
+        <div>
+            <a class="navbar-brand" href="#">
+                <img   onclick="location.href = '/homepage';" style="cursor: pointer;" src="https://drive.google.com/uc?export=view&id=1P5juEAyj9PhLScA3obAptNXJCtSB5bLv" width="30" height="auto">
+              </a>
+            <h1 class="navbar-brand mb-0 h1">Ponyo Feels</h1>
+            <p class="mb-0" style="display: inline;">How are you feeling today?</p>
+        </div>
+        <div>
+            <button onclick="location.href = '/'" type="button"
+                class="btn btn-secondary">Back</button>
+                <button onclick="location.href = '/about';" type="button"
+                class="btn btn-secondary">About</button>            </div>
+        </div>
+    </div>
+</nav>
+
+<di<div class="container">
+    <div class="text-center my-4">
+        <p>You seem to be feeling</p>
+        <strong>{{emotion}}</strong>
+    </div>
+
+    <p id="emotiondefinition"> Hello </p>
+
+    <iframe id="emotionSpotify" style="border-radius:12px"
+        src="https://open.spotify.com/embed/track/6LgJvl0Xdtc73RJ1mmpotq?utm_source=generator" width="100%" height="352"
+        frameborder="0" allowfullscreen=""
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+    <canvas id="emotionPieChart" width="1240" height="1000"
+        style="display: block; box-sizing: border-box; height: 500px; width: 620px;"></canvas>
+
+
+</div>
+
+<script>
+  
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        function about(){
+            window.location.href = 'about.html';
+        }
+        function goBack() {
+        window.history.back();
+      }
+      function homepage() {
+        window.location.href = 'homepage.html';
+      }
+        function reportDefintion(emotion) {
+            var definitionMap = {
+                "Admiration": "Feeling of high regard and favorable opinion",
+                "Adoration": "Profound love coupled with deep respect",
+                "Aesthetic Appreciation": "Recognition and enjoyment of beauty or artistic expression",
+                "Amusement": "Being amused or finding something laughable",
+                "Anger": "Intense irritation, upset, or antagonism",
+                "Anxiety": "Worry or unease about something with an uncertain result",
+                "Awe": "Respectful fear and wonder combined with admiration",
+                "Awkwardness": "Feeling of unease or discomfort",
+                "Boredom": "Feeling uninterested and unengaged with one's environment or activities",
+                "Calmness": "Sense of serenity and quietness",
+                "Concentration": "Focus of mind and effort on a specific task or activity",
+                "Contemplation": "Deep and prolonged thought or observation",
+                "Confusion": "State of being puzzled or unclear",
+                "Contempt": "Disdain or scorn for something deemed unworthy",
+                "Contentment": "Feeling of joy and fulfillment",
+                "Craving": "Intense longing for something",
+                "Determination": "Resolve or steadfastness towards a goal",
+                "Disappointment": "Feeling of sadness due to unmet expectations",
+                "Disgust": "Strong aversion or repulsion to something offensive",
+                "Distress": "Severe anxiety, sorrow, or pain",
+                "Doubt": "Uncertainty or skepticism about something",
+                "Ecstasy": "Intense joy or rapturous excitement",
+                "Embarrassment": "Feeling of awkwardness or shame",
+                "Empathic Pain": "Pain felt in empathy with another's suffering",
+                "Entrancement": "Being captivated or completely engrossed in something",
+                "Envy": "Resentful longing for others' possessions, qualities, or fortunes",
+                "Excitement": "Eager enthusiasm and anticipation",
+                "Fear": "Feeling of alarm caused by perceived danger or threat",
+                "Guilt": "Awareness of having done something wrong or immoral",
+                "Horror": "Intense dread, shock, or repulsion",
+                "Interest": "Curiosity or desire to learn more about something or someone",
+                "Joy": "Intense happiness and delight",
+                "Love": "Profound emotional affection and attachment",
+                "Nostalgia": "Sentimental yearning for the past",
+                "Pain": "Physical suffering or discomfort",
+                "Pride": "Deep satisfaction from one's own or associated achievements",
+                "Realization": "Becoming fully aware of a fact",
+                "Relief": "Reassurance and calmness after anxiety or distress",
+                "Romance": "Excitement and mystery in love",
+                "Sadness": "State of feeling sorrowful or unhappy",
+                "Satisfaction": "Feeling of having one's expectations met or fulfilled",
+                "Desire": "Intense wish or longing for something",
+                "Shame": "Embarrassment or distress from one's own actions or qualities",
+                "Surprise (negative)": "Unpleasantly unexpected event or fact",
+                "Surprise (positive)": "Pleasantly unexpected event or fact",
+                "Sympathy": "Compassion for others' misfortunes",
+                "Tiredness": "Desire for rest or sleep",
+                "Triumph": "Significant success or achievement"
+            };
+
+            var definitionElement = document.getElementById('emotiondefinition');
+            definitionElement.textContent = definitionMap[emotion];
+
+        }
+
+        function changeIframeSrc(emotion) {
+            var urlMap = {
+                "Admiration": "https://open.spotify.com/embed/track/5zCJvrT3C7cIfHsR5iG95l?utm_source=generator",
+                "Adoration": "https://open.spotify.com/embed/track/4eHbdreAnSOrDDsFfc4Fpm?utm_source=generator",
+                "Aesthetic Appreciation": "https://open.spotify.com/embed/track/1VuBmEauSZywQVtqbxNqka?utm_source=generator",
+                "Amusement": "https://open.spotify.com/embed/track/6AQbmUe0Qwf5PZnt4HmTXv?utm_source=generator",
+                "Anger": "https://open.spotify.com/embed/track/1c8gk2PeTE04A1pIDH9YMk?utm_source=generator",
+                "Anxiety": "https://open.spotify.com/embed/track/0AjQvTAlYcWQ6JpJcUdsKw?utm_source=generator",
+                "Awe": "https://open.spotify.com/embed/track/3e0FzZjTXOUtiJGSClOBrI?utm_source=generator",
+                "Awkwardness": "https://open.spotify.com/embed/track/0wwPcA6wtMf6HUMpIRdeP7?utm_source=generator",
+                "Boredom": "https://open.spotify.com/embed/playlist/37i9dQZF1EIdO8LqmDczC3?utm_source=generator",
+                "Calmness": "https://open.spotify.com/embed/track/7pv80uUHfocFqfTytu1MVi?utm_source=generator",
+                "Concentration": "https://open.spotify.com/embed/track/2HHtWyy5CgaQbC7XSoOb0e?utm_source=generator",
+                "Contemplation": "https://open.spotify.com/embed/track/784VjdNkpXhFV0RHquzsi2?utm_source=generator",
+                "Confusion": "https://open.spotify.com/embed/track/6LgJvl0Xdtc73RJ1mmpotq?utm_source=generator",
+                "Contempt": "https://open.spotify.com/embed/track/564Z6w6IbtUnIO4QLg4y3P?utm_source=generator",
+                "Contentment": "https://open.spotify.com/embed/track/7vggqxNKwd6xdRoYS0pQtM?utm_source=generator",
+                "Craving": "https://open.spotify.com/embed/track/6BrMEbPSSj55nQhkgf6DnE?utm_source=generator",
+                "Determination": "https://open.spotify.com/embed/track/6D60klaHqbCl9ySc8VcRss?utm_source=generator",
+                "Disappointment": "https://open.spotify.com/embed/track/3oEkrIfXfSh9zGnE7eBzSV?utm_source=generator",
+                "Disgust": "https://open.spotify.com/embed/track/4ycLiPVzE5KamivXrAzGFG?utm_source=generator",
+                "Distress": "https://open.spotify.com/embed/track/1wyVyr8OhYsC9l0WgPPbh8?utm_source=generator",
+                "Doubt": "https://open.spotify.com/embed/track/6LgJvl0Xdtc73RJ1mmpotq?utm_source=generator",
+                "Ecstasy": "https://open.spotify.com/embed/track/4PEGwWH4tL6H7dGl4uVSPg?utm_source=generator",
+                "Embarrassment": "https://open.spotify.com/embed/track/70LcF31zb1H0PyJoS1Sx1r?utm_source=generator",
+                "Empathic Pain": "https://open.spotify.com/embed/track/5zCJvrT3C7cIfHsR5iG95l?utm_source=generator",
+                "Entrancement": "https://open.spotify.com/embed/track/2OUPZheGd8XbNQwBMImYnI?utm_source=generator",
+                "Envy": "https://open.spotify.com/embed/track/564Z6w6IbtUnIO4QLg4y3P?utm_source=generator",
+                "Excitement": "https://open.spotify.com/embed/track/6oBEmZu29JqnBDOWZOmm6O?utm_source=generator",
+                "Fear": "https://open.spotify.com/embed/track/2H2379xRxgQVvcOSoL8Ajr?utm_source=generator",
+                "Guilt": "https://open.spotify.com/embed/track/6ucR4KfvsBFWCMVFDvyKKl?utm_source=generator",
+                "Horror": "https://open.spotify.com/embed/track/7ERSQrRptZVM7q3VOdM7OL?utm_source=generator",
+                "Interest": "https://open.spotify.com/embed/track/7mebNFbb0ehL1IX1DMktdC?utm_source=generator",
+                "Joy": "https://open.spotify.com/embed/track/3koCCeSaVUyrRo3N2gHrd8?utm_source=generator",
+                "Love": "https://open.spotify.com/embed/track/7mimnm2QlSzW3J38FRMETP?utm_source=generator",
+                "Nostalgia": "https://open.spotify.com/embed/track/4wCmqSrbyCgxEXROQE6vtV?utm_source=generator",
+                "Pain": "https://open.spotify.com/embed/track/6PypGyiu0Y2lCDBN1XZEnP?utm_source=generator",
+                "Pride": "https://open.spotify.com/embed/track/6Slt6WiWnriaqCb8xXb2ZT?utm_source=generator",
+                "Realization": "https://open.spotify.com/embed/track/7mebNFbb0ehL1IX1DMktdC?utm_source=generator",
+                "Relief": "https://open.spotify.com/embed/track/1vYXt7VSjH9JIM5oRRo7vA?utm_source=generator",
+                "Romance": "https://open.spotify.com/embed/track/4PEGwWH4tL6H7dGl4uVSPg?utm_source=generator",
+                "Sadness": "https://open.spotify.com/embed/track/10nyNJ6zNy2YVYLrcwLccB?utm_source=generator",
+                "Satisfaction": "https://open.spotify.com/embed/track/213yG5o4EISfGoceayLo6u?utm_source=generator",
+                "Desire": "https://open.spotify.com/embed/track/2TmqHjg7uhizGndzXQdFuf?utm_source=generator",
+                "Shame": "https://open.spotify.com/embed/track/70LcF31zb1H0PyJoS1Sx1r?utm_source=generator",
+                "Surprise (negative)": "https://open.spotify.com/embed/track/2Fxmhks0bxGSBdJ92vM42m?utm_source=generator",
+                "Surprise (positive)": "https://open.spotify.com/embed/track/4bHsxqR3GMrXTxEPLuK5ue?utm_source=generator",
+                "Sympathy": "https://open.spotify.com/embed/track/2je7nCHSkWemSHgvLLIc32?utm_source=generator",
+                "Tiredness": "https://open.spotify.com/embed/track/1LzNfuep1bnAUR9skqdHCK?utm_source=generator",
+                "Triumph": "https://open.spotify.com/embed/track/6ATrsVaZT7XjkCynxM8cTS?utm_source=generator"
+            };
+
+            var iframe = document.getElementById('emotionSpotify');
+            iframe.src = urlMap[emotion];
+        }
+
+
+        const emotion = "{{ emotion }}";
+        changeIframeSrc(emotion);
+        reportDefintion(emotion);
+        const emotionsData = {{ emotions_data | tojson
+    }};
+    const ctx = document.getElementById('emotionPieChart').getContext('2d');
+    const emotionBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(emotionsData),
+            datasets: [{
+                label: 'Emotions',
+                data: Object.values(emotionsData),
+                backgroundColor: 'rgba(255, 165, 0, 0.2)',
+                borderColor: 'rgba(255, 165, 0, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    ticks: {
+                        font: {
+                            size: 15
+                        }
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        font: {
+                            size: 15
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 15
+                        }
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Emotions Experienced by Our Users To Date',
+                    font: {
+                        size: 25
+
+                    },
+                    fontColor: 'black'
+                }
+            }
+        }
+    });
+        });
+</script>
+</body>
+
+</html>

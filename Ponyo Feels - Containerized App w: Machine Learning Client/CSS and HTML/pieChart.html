@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .pie-chart-container {
+            display: flex;
+        }
+
+        .pie-chart {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        .legend {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .legend-item div {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="pie-chart-container">
+        <div class="pie-chart" id="dynamic-pie-chart"></div>
+        <div class="legend" id="legend"></div>
+    </div>
+
+    <script>
+        function createPieChart(data) {
+            const container = document.getElementById('dynamic-pie-chart');
+            container.style.background = `conic-gradient(from 0deg, ${generateSlices(data)})`;
+
+            createLegend(data);
+        }
+
+        function generateSlices(slices1) {
+        slices=slices1[0]
+        let gradientStops = '';
+        var sa = 0;
+        var startAngle=0;
+        var endAngle=0;
+        var sum1=0;
+        for(sum = 0;sum<slices.length-1;sum++)sum1+=slices[sum].value
+        slices.forEach((slice, i) => {
+              if(i<slices.length-1){
+                startAngle = sa;
+                endAngle = startAngle + ((slice.value/sum1) * 360);
+                sa = endAngle;
+                gradientStops += `, ${slice.color} ${startAngle}deg ${endAngle}deg`;
+              }
+        });
+
+        return gradientStops.substring(2); // Remove the leading comma and space
+    }
+
+
+        function createLegend(data1) {
+            const legendContainer = document.getElementById('legend');
+            legendContainer.innerHTML = '';
+            data=data1[1]
+            color=data1[0];
+            i=0
+            data.forEach(name => {
+                if(i<color.length-1){
+                  const legendItem = document.createElement('div');
+                  legendItem.className = 'legend-item';
+
+                  const colorBox = document.createElement('div');
+                  colorBox.style.backgroundColor = color[i].color;
+
+                  const label = document.createElement('span');
+                  label.textContent = name;
+                  legendItem.appendChild(colorBox);
+                  legendItem.appendChild(label);
+                  legendContainer.appendChild(legendItem);
+                  i++
+                }
+            });
+        }
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        
+    // Function to fetch data from a text file
+    async function fetchDataFromFile(filePath) {
+  try {
+      const response = await fetch(filePath);
+      const data = await response.text();
+
+      var lines = data.split('\n');
+      const percentages = lines.map(function(line) {
+        return line.split(',')[1]
+      });
+      const names = lines.map(function(line) {
+        return line.split(',')[0]
+      });
+      const slicesNum = percentages.map(value => ({ value: parseFloat(value), color: getRandomColor()}));
+      both = [slicesNum,names]
+      return both;
+  } catch (error) {
+      console.error('Error fetching data:', error);
+  }
+}
+
+    // Example usage:
+    const filePath = 'output.txt';
+    fetchDataFromFile(filePath)
+        .then(data => createPieChart(data))
+        .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
+
+      
+
+

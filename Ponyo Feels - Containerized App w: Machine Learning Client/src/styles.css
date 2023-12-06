@@ -1,0 +1,117 @@
+/* Common styles for all headers */
+h1, h2, h3 {
+    color: #666666;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/* Specific styles for each header */
+h1 {
+    font-family: 'Oxygen Mono', monospace;
+}
+
+h2, h3 {
+    font-family: Helvetica, sans-serif;
+    font-size: 25px;
+}
+
+/* Paragraph styling */
+p {
+    color: #666666;
+    font-family: Helvetica, sans-serif;
+    text-align: center;
+}
+
+/* Body styling */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #FFF9EF;
+    flex-direction: column;
+    min-height: 100vh;
+    color: #666666;
+}
+
+/* Header container styling */
+.header-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #FFF9EF;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 3px;
+    z-index: 1000;
+}
+
+/* General container styling */
+.container {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    padding: 20px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding-top: 100px;
+}
+
+/* Image container styling */
+.image-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Button styling */
+.button {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 3px;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Oxygen Mono', monospace;
+    border: 0;
+    padding: 10px 20px;
+    position: relative;
+    margin: 10px auto;
+    width: auto;
+    background-color: transparent; /* Default state */
+}
+
+.button:hover {
+    background-color: #ddd;
+}
+
+/* Image styling */
+img {
+    width: 350px;
+    height: auto;
+    display: block;
+}
+
+/* Specific ID selectors */
+#cameraStream, #emotionPieChart {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 10px;
+}
+
+#emotionSpotify {
+    z-index: 10;
+    padding: 20px;
+    bottom: 5%;
+    background-color: #fff9ef;
+    text-align: center;
+}
+
+/* Class for displaying emotions */
+.emotion-display {
+    font-family: "Oxygen Mono", monospace;
+    font-weight: bold;
+    font-size: 25px;
+}

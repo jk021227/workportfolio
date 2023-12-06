@@ -1,0 +1,24 @@
+# docker-compose.yml
+version: '3'
+services:
+  web_app:
+    container_name: ponyo-feels
+    # restart: always
+    build: .
+    ports:
+      - '5001:5001'
+    links:
+      - mongo
+  machine_learning:
+    container_name: ml
+    build:
+      context: .
+      dockerfile: Dockerfile_ml
+    ports:
+      - '5002:5002'
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - '27017:27017'
+  
