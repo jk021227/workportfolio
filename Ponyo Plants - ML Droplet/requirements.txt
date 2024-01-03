@@ -1,0 +1,11 @@
+flask
+pymongo
+python-dotenv
+Flask-Bcrypt
+requests
+coverage
+chardet
+pytest
+pymongo
+chardet
+mongomock

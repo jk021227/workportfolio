@@ -1,0 +1,27 @@
+version: '3'
+services:
+  web_app:
+    container_name: ponyo-plants
+    build: .
+    ports:
+      - '5001:5001'
+    environment:
+      - DATABASE_CONNECTION_STRING
+      - FLASK_SECRET_KEY
+      - API_KEY
+    depends_on:
+      - mongodb
+    networks:
+      - mynetwork
+
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - '27017:27017'
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
