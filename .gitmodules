@@ -1,0 +1,3 @@
+[submodule "termolatio"]
+	path = termolatio
+	url = https://github.com/levith-andrade-cuellar/termolatio.git
